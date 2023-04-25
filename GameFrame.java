@@ -17,6 +17,10 @@ public class GameFrame extends JFrame {
     }
 
     public static void main(String[] args) {
+        // Display new rules for game
+        JOptionPane.showMessageDialog(null, "Rules: ",
+                "Rules",
+                JOptionPane.INFORMATION_MESSAGE);
         GameFrame frame = new GameFrame();
 
         // Game loop
