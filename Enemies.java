@@ -88,4 +88,13 @@ public abstract class Enemies extends JComponent {
     public int GetEnemyCount() {
         return this.enemyCount; 
     }
+    
+    /**
+     * Used to paint the enemies 
+     */
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        drawEnemy(g);
+    }
 }
