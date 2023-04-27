@@ -35,18 +35,6 @@ public abstract class Enemies extends JComponent {
         this.enemySpeed = enemySpeed; 
     }
      
-   
-    // We had these three methods copied and pasted in our levels because they slightly change
-    // but the framework is repetitive.
-    // We made these abstract. 
-    
-    // public abstract void processCollision(ArrayList<Enemies> list, int enemy);  
-    // public abstract void move(int width, int height); 
-    
-    public boolean death() {
-        return false;
-    }
-    
     /**
      * Draws a filled circle with Enemy's color & bounds. 
      * @param g The Graphics that include the color & bounds. 
