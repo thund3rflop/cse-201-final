@@ -9,42 +9,45 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Enemies> enemies;
+	private ArrayList<Projectiles> projectiles;
 	private Random random;
 	private int enemySize;
 	private int enemyDeaths;
-	private Tank turret; 
 
 	public GamePanel() {
 		enemies = new ArrayList<>();
+		projectiles = new ArrayList<>();
 		random = new Random();
 		enemySize = 30; // Adjust this value for desired enemy size
 		enemyDeaths = 0;
+		Color color = Color.blue;
+		setPreferredSize(new Dimension(800, 600));
+		setBackground(Color.BLACK);
 		
-	    
-		// Initialize and set up the turret object
-        int turretWidth = 30;
-        int turretHeight = 30;
-        int turretX = (800 - turretWidth) / 2;
-        int turretY = (600 - turretHeight) / 2;
-        turret = new Tank(turretX, turretY, turretHeight, turretWidth, 0, Color.GREEN, Color.RED);
-        turret.addMouseMotionListener(turret); // Add MouseMotionListener to turret
+		addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent e) {
+		        int centerX = getWidth() / 2;
+                int centerY = getHeight() / 2;
+                projectiles.add(new Projectiles(centerX, centerY, e.getX(), e.getY(), color, centerY, centerY));
+            }
+        });
 
-        setPreferredSize(new Dimension(800, 600));
-        setBackground(Color.BLACK);
 	}
-
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (Enemies enemy : enemies) {
 			enemy.paint(g);
 		}
-        turret.paintComponent(g); // Paint the turret object
-
+		for (Projectiles projectile : projectiles) {
+            projectile.paint(g);
+	}
 	}
 
 	public void spawnEnemies() {
@@ -65,7 +68,7 @@ public class GamePanel extends JPanel {
 				y = random.nextInt(getHeight() - enemySize);
 			}
 
-			Enemies newEnemy = new CustomEnemy(x, y, enemySize, enemySize, 1.5);
+			Enemies newEnemy = new CustomEnemy(x, y, enemySize, enemySize, 2);
 			enemies.add(newEnemy);
 		}
 	}
@@ -107,15 +110,12 @@ public class GamePanel extends JPanel {
 			enemies.remove(enemy);
 			enemyDeaths++;
 
-			if (enemyDeaths >= 200) {
+			if (enemyDeaths >= 100) {
 				JOptionPane.showMessageDialog(null, "Quit ", "Quit", JOptionPane.INFORMATION_MESSAGE);
 				System.exit(0);
 				break;
 			}
 		}
 	}
-	
-	
-	
 
 }
