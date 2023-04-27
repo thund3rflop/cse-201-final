@@ -16,6 +16,8 @@ public class GameFrame extends JFrame {
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
+        setTitle("Bullet Blitz");
+
     }
 
     public static void main(String[] args) {
