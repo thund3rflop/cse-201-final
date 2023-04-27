@@ -16,15 +16,25 @@ public class GamePanel extends JPanel {
 	private Random random;
 	private int enemySize;
 	private int enemyDeaths;
+	private Tank turret; 
 
 	public GamePanel() {
 		enemies = new ArrayList<>();
 		random = new Random();
 		enemySize = 30; // Adjust this value for desired enemy size
 		enemyDeaths = 0;
+		
+	    
+		// Initialize and set up the turret object
+        int turretWidth = 30;
+        int turretHeight = 30;
+        int turretX = (800 - turretWidth) / 2;
+        int turretY = (600 - turretHeight) / 2;
+        turret = new Tank(turretX, turretY, turretHeight, turretWidth, 0, Color.GREEN, Color.RED);
+        turret.addMouseMotionListener(turret); // Add MouseMotionListener to turret
 
-		setPreferredSize(new Dimension(800, 600));
-		setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(800, 600));
+        setBackground(Color.BLACK);
 	}
 
 	@Override
@@ -33,6 +43,8 @@ public class GamePanel extends JPanel {
 		for (Enemies enemy : enemies) {
 			enemy.paint(g);
 		}
+        turret.paintComponent(g); // Paint the turret object
+
 	}
 
 	public void spawnEnemies() {
@@ -95,12 +107,15 @@ public class GamePanel extends JPanel {
 			enemies.remove(enemy);
 			enemyDeaths++;
 
-			if (enemyDeaths >= 10) {
+			if (enemyDeaths >= 200) {
 				JOptionPane.showMessageDialog(null, "Quit ", "Quit", JOptionPane.INFORMATION_MESSAGE);
 				System.exit(0);
 				break;
 			}
 		}
 	}
+	
+	
+	
 
 }

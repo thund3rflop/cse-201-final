@@ -4,7 +4,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
+
 import javax.swing.JComponent;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+
 
 public class Tank extends Enemies implements MouseMotionListener {
 
@@ -12,10 +17,12 @@ public class Tank extends Enemies implements MouseMotionListener {
     private int turretAngle; // angle of turret in degrees
     private Color tankColor, turretColor;
 
+
     public Tank(int x, int y, int height, int width, double enemySpeed, Color tankColor, Color turretColor) {
         super(x, y, height, width, enemySpeed);
         this.tankColor = tankColor;
         this.turretColor = turretColor;
+        
     }
     
     @Override
