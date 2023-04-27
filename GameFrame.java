@@ -1,17 +1,19 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class GameFrame extends JFrame {
     private GamePanel gamePanel;
+    static Sound se = new Sound();
 
     public GameFrame() {
         gamePanel = new GamePanel();
         setContentPane(gamePanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        setResizable(false);
+        setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -35,5 +37,9 @@ public class GameFrame extends JFrame {
         };
         Timer timer = new Timer(delay, gameLoop);
         timer.start();
+        // Begins background music by calling sound class
+        se.setFile("BlueBoyAdventure.wav");
+        se.play();
+        se.loop();
     }
 }
