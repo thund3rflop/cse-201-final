@@ -43,7 +43,8 @@ public class HiddenItem extends Enemies {
     * @param g The graphics to allow the item to be painted. 
     */ 
     protected void paintComponent(Graphics g) {     
-        g.setColor(Color.DARK_GRAY);
+        Color c = Color.decode("#181818"); 
+        g.setColor(c);
         g.drawOval(xPos - width, yPos - height, size, size); 
         g.fillOval(xPos - width, yPos - height, size, size); 
     }
