@@ -41,16 +41,6 @@ public class LevelTwo {
         // Sets the beginning time of the system.
         long startTime = System.currentTimeMillis(); 
         
-        // Creates parameters for the hidden item. 
-        double speed = 0.5;  
-        Color c = Color.DARK_GRAY; 
-        int size = 20;
-        int x = 400;
-        int y = 300; 
-        
-        // Creates hidden item. 
-        HiddenItem item = new HiddenItem(speed, c, size, x, y); 
-        
         // If the hidden item was hit, add multiplier. 
         if (hiddenItem = true) {
             score = score + (score * itemMultiplier); 
