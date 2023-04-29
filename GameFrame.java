@@ -22,7 +22,9 @@ public class GameFrame extends JFrame {
 
     public static void main(String[] args) {
         // Display new rules for game
-        JOptionPane.showMessageDialog(null, "Rules: ",
+        JOptionPane.showMessageDialog(null, "Rules: "
+                +  ("\n1. Hit the asteroids before they reach the turret."
+                        + "\n2. Beat the time for extra points! \n3. Hit the hidden item for more extra points!"),
                 "Rules",
                 JOptionPane.INFORMATION_MESSAGE);
         GameFrame frame = new GameFrame();
