@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,12 +27,13 @@ public class GamePanel extends JPanel {
 		
 	    
 		// Initialize and set up the turret object
-        int turretWidth = 30;
-        int turretHeight = 30;
-        int turretX = (800 - turretWidth) / 2;
-        int turretY = (600 - turretHeight) / 2;
-        turret = new Tank(turretX, turretY, turretHeight, turretWidth, 0, Color.GREEN, Color.RED);
-        turret.addMouseMotionListener(turret); // Add MouseMotionListener to turret
+//        int turretWidth = 30;
+//        int turretHeight = 30;
+//        int turretX = (800 - turretWidth) / 2;
+//        int turretY = (600 - turretHeight) / 2;
+//        turret = new Tank(turretX, turretY, turretHeight, turretWidth, 0, Color.GREEN, Color.RED);
+//        turret.addMouseMotionListener(turret); // Add MouseMotionListener to turret
+		turret = new Tank();
 
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.WHITE);
@@ -43,7 +45,7 @@ public class GamePanel extends JPanel {
 		for (Enemies enemy : enemies) {
 			enemy.paint(g);
 		}
-        turret.paintComponent(g); // Paint the turret object
+        //turret.paintComponent(g); // Paint the turret object
 
 	}
 

@@ -3,51 +3,56 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.io.IOException;
-
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.MouseMotionAdapter;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JComponent;
-import java.awt.Image;
-import javax.imageio.ImageIO;
 
+public class Tank extends JPanel {
 
-public class Tank extends Enemies implements MouseMotionListener {
-
-    private int x, y; // position of tank
-    private int turretAngle; // angle of turret in degrees
-    private Color tankColor, turretColor;
-
-
-    public Tank(int x, int y, int height, int width, double enemySpeed, Color tankColor, Color turretColor) {
-        super(x, y, height, width, enemySpeed);
-        this.tankColor = tankColor;
-        this.turretColor = turretColor;
-        
+    // Define the initial shape to be rotated
+    private final int[] xPoints = { 440, 390, 390, 440 };
+    private final int[] yPoints = { 310, 310, 290, 290 };
+    private final int numPoints = 4;
+    
+    // Define the rotation point
+    private final Point rotationPoint = new Point(400, 300);
+    
+    // Define the current angle of rotation
+    private double angle = 0;
+    
+    public Tank() {
+      // Add a mouse motion listener to track the mouse movement
+      addMouseMotionListener(new MouseMotionAdapter() {
+        public void mouseMoved(MouseEvent e) {
+          // Calculate the new angle of rotation based on the mouse position
+          angle = Math.atan2(e.getY() - rotationPoint.getY(), e.getX() - rotationPoint.getX());
+          // Repaint the panel with the new rotation
+          repaint();
+        }
+      });
     }
     
-    @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(tankColor);
-        g2d.fillRect(getX(), getY(), getWidth(), getHeight());
-        g2d.rotate(Math.toRadians(turretAngle), getX() + getWidth() / 2, getY() + getHeight() / 2);
-        g2d.setColor(turretColor);
-        g2d.fillRect(getX() + getWidth() / 2 - 5, getY(), 10, getHeight());
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        // Do nothing
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        Point mousePos = e.getPoint();
-        int dx = getX() + getWidth() / 2 - mousePos.x;
-        int dy = getY() + getHeight() / 2 - mousePos.y;
-        turretAngle = (int) Math.toDegrees(Math.atan2(dy, dx));
-        repaint();
+      super.paintComponent(g);
+      Graphics2D g2d = (Graphics2D)g;
+      g2d.setColor(Color.blue);
+      // Translate the graphics context to the rotation point
+      g2d.translate(rotationPoint.getX(), rotationPoint.getY());
+      // Rotate the graphics context by the current angle
+      g2d.rotate(angle);
+      // Translate the graphics context back to the original position
+      g2d.translate(-rotationPoint.getX(), -rotationPoint.getY());
+      // Draw the rotated shape
+      g2d.drawPolygon(xPoints, yPoints, numPoints);
+      g2d.fillPolygon(xPoints, yPoints, numPoints);
+      g2d.drawOval(380, 280, 40, 40);
+      g2d.setColor(Color.orange);
+      g2d.fillOval(380, 280, 40, 40);
+      
     }
 
 }
