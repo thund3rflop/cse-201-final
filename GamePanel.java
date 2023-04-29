@@ -18,6 +18,7 @@ public class GamePanel extends JPanel {
 	private int enemySize;
 	private int enemyDeaths;
 	private Tank turret; 
+	private HiddenItem item; 
 
 	public GamePanel() {
 		enemies = new ArrayList<>();
