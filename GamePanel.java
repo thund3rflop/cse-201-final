@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
 		item = new HiddenItem((int)(Math.random() * 800), (int) (Math.random() * 600), 20, 20, 40); 
 
         setPreferredSize(new Dimension(800, 600));
-        setBackground(Color.WHITE);
+        setBackground(Color.BLACK);
 	}
 
 	@Override
