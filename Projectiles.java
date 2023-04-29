@@ -2,41 +2,33 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-    public class Projectiles {
-        private int x;
-        private int y;
-        private int width;
-        private int height;
+import javax.swing.JComponent;
+
+    public class Projectiles extends JComponent {
+        
         private Color color;
         private int speedX;
         private int speedY;
 
         public Projectiles(int x, int y, int width, int height, Color color, int speedX, int speedY) {
-            this.x = x;
-            this.y = y;
-            this.width = 10;
-            this.height = 10;
+            
             this.color = color;
             this.speedX = speedX;
             this.speedY = speedY;
-            
-            double dist = Math.sqrt(Math.pow(width - height, 2) + Math.pow(x - y, 2));
-            this.speedX = (int) ((height - x) / dist * speedX);
-            this.speedY = (int) ((height - y) / dist * speedY);
+            this.setBounds(x, y, width, height);
+  
         }
 
         public void move() {
-            x += speedX;
-            y += speedY;
+            int x1 = getX() + speedX;
+            int y1 = getY() + speedY;
+            
+            setBounds(x1, y1, getWidth(), getHeight());
         }
 
-        public Rectangle getBounds() {
-            return new Rectangle(x, y, width, height);
-        }
-
-        public void paint(Graphics g) {
+        public void paintComponent(Graphics g) {
             g.setColor(color);
-            g.fillRect(x, y, width, height);
+            g.fillRect(getX(), getY(), getWidth(), getHeight());
         }
     }
 
