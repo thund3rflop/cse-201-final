@@ -15,26 +15,16 @@ import javax.swing.Timer;
 
 public class GameFrame extends JFrame {
     private static GamePanel gamePanel;
-    
-    /**
-     * The starting time of the system. 
-     */
     private static long startTime;
-    
-    /**
-     * The finishing time of the system.
-     */
     private static long finishTime;
-    
-    /**
-     * The total time on the system.
-     */
-    private static long currentTime; 
-    
+    private static long totalTime; 
+    private static long timeGoal = 120000; 
+    private static double itemMulti = 0.5;
+    private static double timeMulti = 0.75;
     private static JLabel scoreLabel; 
     private static JLabel deathLabel; 
     private static GameFrame frame; 
-    
+    private static JButton shoot; 
     static Sound se = new Sound();
 
     public GameFrame() {
@@ -49,14 +39,16 @@ public class GameFrame extends JFrame {
         deathLabel.setForeground(Color.WHITE); 
         add(scoreLabel, BorderLayout.NORTH); 
         add(deathLabel, BorderLayout.NORTH); 
+        JLabel timeGoalLabel = new JLabel("Time goal: 2 minutes"); 
+        timeGoalLabel.setForeground(Color.WHITE);
+        add(timeGoalLabel, BorderLayout.NORTH); 
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
-        setTitle("Bullet Blitz"); 
-        
+        setTitle("Bullet Blitz");  
     }
 
     public static void main(String[] args) {
@@ -90,20 +82,36 @@ public class GameFrame extends JFrame {
     }
     
     public static void gameStuff() {
+        startTime = System.currentTimeMillis(); 
+        
         int score = frame.gamePanel.getScore();
         scoreLabel.setText("Score: " + score);
         if (score > 1000) {
+            
+            // Checks to see if time goal was beat. 
+            finishTime = System.currentTimeMillis(); 
+            totalTime = finishTime - startTime; 
+            if (totalTime <= timeGoal) {
+                score = (int) (score + (score * timeMulti)); 
+            }
+            
+            // Checks to see if the hidden item was hit. 
+            boolean hiddenItemHit;
+            if (hiddenItemHit = true) {
+                score = (int) (score + (score * itemMulti)); 
+            }
+            
             JOptionPane.showMessageDialog(null, "You Win! Score: " + score,
-                    "Game Finished Message",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    "SCORE GOAL REACHED",
+                    JOptionPane.INFORMATION_MESSAGE); 
             System.exit(0);
         }
         
         int deaths = frame.gamePanel.getDeath();
         deathLabel.setText("Deaths: " + deaths); 
-        if (deaths > 25) {
+        if (deaths >= 25) {
             JOptionPane.showMessageDialog(null, "You Lose!",
-                    "Game Finished Message",
+                    "DEATH LIMIT REACHED",
                     JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
