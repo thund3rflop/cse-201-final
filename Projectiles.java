@@ -27,7 +27,7 @@ import javax.swing.JPanel;
                     int y = getHeight() / 2 - 10;
                     int speed = 10;
                     
-                    Projectiles proj = new Projectiles(x, y, speed, Color.RED);
+                    Projectiles proj = new Projectiles(x, y, speed);
                     
                     projectiles.add(proj);
                     repaint();
@@ -35,9 +35,9 @@ import javax.swing.JPanel;
             });
         }
 
-        public Projectiles(int x, int y, int speed, Color color) {
-            speed = 10;
-            this.color = color;
+        public Projectiles(int x, int y, int speed) {
+            this.speed = speed;
+            this.color = Color.RED;
             this.x = x;
             this.y = y;
             this.setBounds(x, y, width, height);
@@ -45,22 +45,26 @@ import javax.swing.JPanel;
         }
 
 
-        public void paintComponent(Graphics g) {
+       public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            
+           
             for (Projectiles pro: projectiles) {
-                g.setColor(pro.getColor());
-                g.fillRect(pro.getX(), pro.getY(), 20, 20);
-            }
-            g.setColor(color);
-            g.fillRect(getX(), getY(), getWidth(), getHeight());
+                pro.drawProjectile(g);
         }
-        
-        
+       }
+        public void drawProjectile(Graphics g) {
+            final Rectangle bounds = this.getBounds();
+            g.setColor(color);
+            g.fillOval(bounds.x, bounds.y, bounds.width, bounds.height); 
+        }
         
         
         public void move(int width, int height, ArrayList<Projectiles> list,
                 int projectile) {
+            if (list.isEmpty() || projectile >= list.size()) {
+                return;
+            }
+
             int newHeight = list.get(projectile).getY() - speed;
             list.get(projectile).setBounds(list.get(projectile).getX(), newHeight,
                     list.get(projectile).getWidth(), list.get(projectile).getHeight());
