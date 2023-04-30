@@ -45,7 +45,6 @@ public class GamePanel extends JPanel {
 //        int turretX = (800 - turretWidth) / 2;
 //        int turretY = (600 - turretHeight) / 2;
 //        turret = new Tank(turretX, turretY, turretHeight, turretWidth, 0, Color.GREEN, Color.RED);
-//        turret.addMouseMotionListener(turret); // Add MouseMotionListener to turret
 		turret = new Tank();
 		
 		// Creates the hidden item.
@@ -66,6 +65,7 @@ public class GamePanel extends JPanel {
         //turret.paintComponent(g); // Paint the turret object
 		// Paints the hidden item. 
         item.paintComponent(g); 
+        turret.paintComponent(g);
 	}
 
 	public void spawnEnemies() {
