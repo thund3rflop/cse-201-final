@@ -14,9 +14,9 @@ public class HiddenItem extends Enemies {
     */ 
     protected static int xPos = (int) (Math.random() * 800);
     protected static int yPos = (int) (Math.random() * 600); 
-    protected static int height = 20;
-    protected static int width = 20; 
-    protected static int size = 40; 
+    protected static int height = 10;
+    protected static int width = 10; 
+    protected static int size = 20; 
     protected static double speed = 0; 
     
     /**
