@@ -11,6 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComponent;
 
+/**
+* A class that creates a rotating turret.
+*
+* @authors Chankaya Pandya
+*/
 public class Tank extends JPanel {
 
     // Define the initial shape to be rotated
