@@ -18,8 +18,9 @@ public abstract class Enemies extends JComponent {
      * Instance variable that represents enemies' atributes. 
      */
     protected double enemySpeed;
-    protected Color enemyColor = Color.darkGray; 
     protected int enemyCount; 
+    protected Color enemyColor; 
+    protected static int deathCount; 
     
     /**
      * Constructor that initializes bounds/speeds. 
@@ -34,27 +35,13 @@ public abstract class Enemies extends JComponent {
         this.setBounds(x, y, width, height);
         this.enemySpeed = enemySpeed; 
     }
+    
+    public void processCollision(ArrayList<Enemies> list, int enemy) {
+        Enemies e = list.get(enemy); 
+        list.remove(enemy);  
+    }
      
    
-    // We had these three methods copied and pasted in our levels because they slightly change
-    // but the framework is repetitive.
-    // We made these abstract. 
-    
-    // public abstract void processCollision(ArrayList<Enemies> list, int enemy);  
-    // public abstract void move(int width, int height); 
-    
-    public boolean death() {
-		return false;
-	}
-    /*
-     * Method to check that the center of the map is reached by the enemy. 
-     */
-    public boolean isCenterReached(double centerX, double centerY, int threshold) {
-        Rectangle enemyBounds = this.getBounds();
-        return Math.abs(centerX - (enemyBounds.x + enemyBounds.width / 2.0)) < threshold &&
-               Math.abs(centerY - (enemyBounds.y + enemyBounds.height / 2.0)) < threshold;
-    }
-    
     /**
      * Draws a filled circle with Enemy's color & bounds. 
      * @param g The Graphics that include the color & bounds. 
