@@ -16,6 +16,7 @@ import javax.swing.JPanel;
         private int y;
         private Color color;
         private int width;
+        private int speed;
         private int height;
         
         
@@ -24,8 +25,9 @@ import javax.swing.JPanel;
                 public void mousePressed(MouseEvent e) {
                     int x = getWidth() / 2 - 10;
                     int y = getHeight() / 2 - 10;
+                    int speed = 10;
                     
-                    Projectiles proj = new Projectiles(x, y, Color.RED);
+                    Projectiles proj = new Projectiles(x, y, speed, Color.RED);
                     
                     projectiles.add(proj);
                     repaint();
@@ -33,8 +35,8 @@ import javax.swing.JPanel;
             });
         }
 
-        public Projectiles(int x, int y, Color color) {
-            
+        public Projectiles(int x, int y, int speed, Color color) {
+            speed = 10;
             this.color = color;
             this.x = x;
             this.y = y;
@@ -53,6 +55,21 @@ import javax.swing.JPanel;
             g.setColor(color);
             g.fillRect(getX(), getY(), getWidth(), getHeight());
         }
+        
+        
+        
+        
+        public void move(int width, int height, ArrayList<Projectiles> list,
+                int projectile) {
+            int newHeight = list.get(projectile).getY() - speed;
+            list.get(projectile).setBounds(list.get(projectile).getX(), newHeight,
+                    list.get(projectile).getWidth(), list.get(projectile).getHeight());
+
+            if (newHeight < 0) {
+                list.remove(projectile);
+            }
+
+        }
     
     
     public int getX() {
@@ -65,6 +82,10 @@ import javax.swing.JPanel;
     
     public Color getColor() {
         return color;
+    }
+    
+    public int getSpeed() {
+        return speed;
     }
     }
 
