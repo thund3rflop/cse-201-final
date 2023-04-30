@@ -13,6 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+/**
+* Creates the frame of the game.
+*
+* @authors Sam Kujawa, Abigail Jackson, Chase Hollander, Chanakya Pandya
+*/ 
 public class GameFrame extends JFrame {
     private static GamePanel gamePanel;
     private static long startTime;
