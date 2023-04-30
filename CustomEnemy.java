@@ -3,6 +3,12 @@ import java.awt.Image;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+* A class that extends enemies to create custom
+* enemies using an image. 
+*
+* @author Sam Kujawa
+*/ 
 public class CustomEnemy extends Enemies {
     private Image enemyImage;
 
