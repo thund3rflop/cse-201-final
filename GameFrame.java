@@ -100,8 +100,7 @@ public class GameFrame extends JFrame {
         }
         
         int deaths = frame.gamePanel.getDeath();
-        deathLabel.setText("Deaths: " + deaths);
-        System.out.println(deaths); 
+        deathLabel.setText("Deaths: " + deaths); 
         if (deaths > 25) {
             JOptionPane.showMessageDialog(null, "You Lose!",
                     "Game Finished Message",
