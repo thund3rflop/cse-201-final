@@ -50,7 +50,7 @@ public class GamePanel extends JPanel {
 		// Creates the hidden item.
 		int x = (int)(Math.random() * 800); 
 		int y = (int)(Math.random() * 600); 
-		item = new HiddenItem(x, y, 20, 20, 0.0); 
+		item = new HiddenItem(x, y, 10, 10, 0.0); 
 
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.BLACK);
