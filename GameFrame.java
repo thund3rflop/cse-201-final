@@ -28,7 +28,7 @@ public class GameFrame extends JFrame {
     static Sound se = new Sound();
 
     public GameFrame() {
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
         gamePanel = new GamePanel();
         this.add(gamePanel, BorderLayout.CENTER); 
         setContentPane(gamePanel);
