@@ -16,6 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+/**
+* Creates the panel of the game.
+*
+* @authors Sam Kujawa, Abigail Jackson, Chase Hollander, Chanakya Pandya
+*/ 
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Enemies> enemies;
@@ -24,13 +29,13 @@ public class GamePanel extends JPanel {
 	private int enemySize;
 	private HiddenItem item; 
 	private Tank turret; 
-    private int deathGoal = 15;
-    private long timeGoal = 120000;
-    private int scoreGoal = 1000;
-    private double itemMulti = 0.5;
-    private double timeMulti = 0.75; 
-    private static int deathCount = 0;
-    private static int score;
+    	private int deathGoal = 15;
+    	private long timeGoal = 120000;
+    	private int scoreGoal = 1000;
+    	private double itemMulti = 0.5;
+    	private double timeMulti = 0.75; 
+    	private static int deathCount = 0;
+    	private static int score;
     
 
 	public GamePanel() {
@@ -52,8 +57,8 @@ public class GamePanel extends JPanel {
 		int y = (int)(Math.random() * 600); 
 		item = new HiddenItem(x, y, 10, 10, 0.0); 
 
-        setPreferredSize(new Dimension(800, 600));
-        setBackground(Color.BLACK);
+        	setPreferredSize(new Dimension(800, 600));
+        	setBackground(Color.BLACK);
 	}
 
 	@Override
@@ -64,8 +69,8 @@ public class GamePanel extends JPanel {
 		}
         //turret.paintComponent(g); // Paint the turret object
 		// Paints the hidden item. 
-        item.paintComponent(g); 
-        turret.paintComponent(g);
+        	item.paintComponent(g); 
+        	turret.paintComponent(g);
 	}
 
 	public void spawnEnemies() {
@@ -111,37 +116,37 @@ public class GamePanel extends JPanel {
 	
 	// Detects if enemies are hit by projectiles. 
 	public void detectCollision() {
-        // Uses bounds for enemies and projectiles to detect intersection.
-        for (int i = 0; i < enemies.size(); i++) {
-            Rectangle enemyRec = enemies.get(i).getBounds();
-            for (int j = 0; j < projectiles.size(); j++) {
-                Rectangle projectileHit = projectiles.get(j).getBounds();
-                if (projectileHit.intersects(enemyRec)) {
-                    // Projectile has hit an enemy!
-                    enemies.get(i).processCollision(enemies, i);
-                    projectiles.remove(j);
-                    score += 10;
-                }
-            }
-        }
-    }
+        	// Uses bounds for enemies and projectiles to detect intersection.
+        	for (int i = 0; i < enemies.size(); i++) {
+            		Rectangle enemyRec = enemies.get(i).getBounds();
+            		for (int j = 0; j < projectiles.size(); j++) {
+                		Rectangle projectileHit = projectiles.get(j).getBounds();
+                		if (projectileHit.intersects(enemyRec)) {
+                    			// Projectile has hit an enemy!
+                    			enemies.get(i).processCollision(enemies, i);
+                   			projectiles.remove(j);
+                    			score += 10;
+                		}
+            		}
+        	}
+    	}
 	
 	public int getScore() {
-        return this.score; 
-    }
+        	return this.score; 
+    	}
 	
 	// Detects if enemies reach the turret. 
 	public void detectDeath() {
-        // Uses bounds for enemies and turret to detect death. 
-        for (int i = 0; i < enemies.size(); i++) {
-            Rectangle enemyRec = enemies.get(i).getBounds();
-            Rectangle turretRec = new Rectangle(400, 300); 
-            if (turretRec.intersects(enemyRec)) { 
-                deathCount++;
-                enemies.remove(i); 
-            }
-        }
-    }	
+        	// Uses bounds for enemies and turret to detect death. 
+        	for (int i = 0; i < enemies.size(); i++) {
+            		Rectangle enemyRec = enemies.get(i).getBounds();
+            		Rectangle turretRec = new Rectangle(400, 300); 
+            		if (turretRec.intersects(enemyRec)) { 
+                		deathCount++;
+                		enemies.remove(i); 
+            		}
+        	}
+    	}	
 	
 	public int getDeath() {
 	    return this.deathCount; 
