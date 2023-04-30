@@ -126,6 +126,10 @@ public class GamePanel extends JPanel {
         }
     }
 	
+	public int getScore() {
+        return this.score; 
+    }
+	
 	// Detects if enemies reach the turret. 
 	public void detectDeath() {
         // Uses bounds for enemies and turret to detect death. 
@@ -134,7 +138,12 @@ public class GamePanel extends JPanel {
             Rectangle turretRec = new Rectangle(400, 300); 
             if (turretRec.intersects(enemyRec)) { 
                 deathCount++;
+                enemies.remove(i); 
             }
         }
     }	
+	
+	public int getDeath() {
+	    return this.deathCount; 
+	}
 } 
