@@ -7,17 +7,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-/**
-* Creates the frame of the game.
-*
-* @authors Sam Kujawa, Abigail Jackson, Chase Hollander, Chanakya Pandya
-*/ 
 public class GameFrame extends JFrame {
     private static GamePanel gamePanel;
     private static long startTime;
@@ -29,7 +25,6 @@ public class GameFrame extends JFrame {
     private static JLabel scoreLabel; 
     private static JLabel deathLabel; 
     private static GameFrame frame; 
-    private static JButton shoot; 
     static Sound se = new Sound();
 
     public GameFrame() {
@@ -53,7 +48,8 @@ public class GameFrame extends JFrame {
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
-        setTitle("Bullet Blitz");  
+        setTitle("Bullet Blitz"); 
+        
     }
 
     public static void main(String[] args) {
@@ -101,7 +97,7 @@ public class GameFrame extends JFrame {
             }
             
             // Checks to see if the hidden item was hit. 
-            boolean hiddenItemHit;
+            boolean hiddenItemHit = frame.gamePanel.getHit();
             if (hiddenItemHit = true) {
                 score = (int) (score + (score * itemMulti)); 
             }
