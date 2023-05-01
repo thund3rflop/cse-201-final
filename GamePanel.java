@@ -111,7 +111,6 @@ public class GamePanel extends JPanel implements MouseMotionListener {
         enemies = new ArrayList<>();
         random = new Random();
         enemySize = 30; // Adjust this value for desired enemy size
-        enemyDeaths = 0;
         // Creates the hidden item.
         int x = (int)(Math.random() * 800); 
         int y = (int)(Math.random() * 600); 
