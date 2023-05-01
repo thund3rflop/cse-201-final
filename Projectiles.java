@@ -11,13 +11,14 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
- * My mess to clean up.
+ * Creates the projectiles. 
  * 
  * @author Chanakya Pandya
  *
  */
 public class Projectiles extends JComponent {
 
+    // Sets everything for the projectiles. 
     private int x;
     private int y;
     private Color color = Color.RED;
@@ -26,6 +27,11 @@ public class Projectiles extends JComponent {
     private int height = 15;
     private double angle;
 
+    /**
+    * Creates the shooting angle of the projectile. 
+    *
+    * @param angle The angle in which the projectile shoots.
+    */ 
     public Projectiles(double angle) {
         this.angle = angle;
         this.x = 400;
@@ -33,12 +39,20 @@ public class Projectiles extends JComponent {
         setBounds(x, y, width, height);
     }
 
+    /**
+    * Moves the projectiles.
+    */ 
     public void move() {
         x += (int) (speed * Math.cos(angle));
         y += (int) (speed * Math.sin(angle));
         setLocation(x, y);
     }
 
+    /**
+    * Moves the projectile at the specified angle. 
+    *
+    * @param angle 
+    */ 
     public void move(double angle) {
         int moveX = (int) (x + speed * Math.cos(angle));
         int moveY = (int) (y + speed * Math.sin(angle));
@@ -48,6 +62,9 @@ public class Projectiles extends JComponent {
         repaint();
     }
 
+    /**
+    * Paints the projectiles.
+    */ 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(color);
