@@ -44,7 +44,7 @@ public class Tank extends JPanel {
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2d = (Graphics2D)g;
-      g2d.setColor(Color.blue);
+      g2d.setColor(Color.red);
       // Translate the graphics context to the rotation point
       g2d.translate(rotationPoint.getX(), rotationPoint.getY());
       // Rotate the graphics context by the current angle
