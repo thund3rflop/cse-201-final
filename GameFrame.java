@@ -130,13 +130,14 @@ public class GameFrame extends JFrame {
         ActionListener gameLoop = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Determines if enemies have hit turret. 
                 frame.gamePanel.detectDeath();
-                // frame.gamePanel.detectCollision();
+                frame.gamePanel.detectCollision();
                 frame.gamePanel.moveEnemies();
                 frame.gamePanel.spawnEnemies();
                 frame.gamePanel.repaint();
                 gameStuff();
+                frame.gamePanel.updateProjectiles();
+
             }
         };
         Timer timer = new Timer(delay, gameLoop);
