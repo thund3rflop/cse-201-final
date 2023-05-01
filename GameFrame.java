@@ -75,6 +75,7 @@ public class GameFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 frame.gamePanel.detectDeath();
                 frame.gamePanel.detectCollision();
+                frame.gamePanel.detectHiddenItem(); 
                 frame.gamePanel.moveEnemies();
                 frame.gamePanel.spawnEnemies();
                 frame.gamePanel.repaint();
