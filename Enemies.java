@@ -40,7 +40,7 @@ public abstract class Enemies extends JComponent {
     * Deletes enemies when they are hit.
     * @param list The list of enemies. 
     * @param enemy The enemy that is hit and removed. 
-    * / 
+    */ 
     public void processCollision(ArrayList<Enemies> list, int enemy) {
         Enemies e = list.get(enemy); 
         list.remove(enemy);  
