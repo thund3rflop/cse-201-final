@@ -19,9 +19,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/**
+* Creates the game panel.
+*/ 
 public class GamePanel extends JPanel
         implements MouseMotionListener, MouseListener {
     private static final long serialVersionUID = 1L;
+    // Global instance variables. 
     private ArrayList<Enemies> enemies;
     private ArrayList<Projectiles> projectiles;
     private Random random;
@@ -40,7 +44,9 @@ public class GamePanel extends JPanel
     private BufferedImage backgroundImage;
     SoundEffect shoot = new SoundEffect();
 
-
+    /**
+    * Creates the turret, enemies, and projectiles.
+    */ 
     public GamePanel() {
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -90,6 +96,7 @@ public class GamePanel extends JPanel
         }
     }
 
+    // Gets the score. 
     public int getScore() {
         return this.score;
     }
@@ -107,10 +114,12 @@ public class GamePanel extends JPanel
         }
     }
 
+    // Gets the total number of deaths. 
     public int getDeath() {
         return this.deathCount;
     }
 
+    // Determines if the hidden item was hit. 
     public boolean detectHiddenItem() {
         ArrayList<Enemies> hiddenItem = new ArrayList<>();
         hiddenItem.add(item);
@@ -127,14 +136,17 @@ public class GamePanel extends JPanel
         return hiddenHit;
     }
 
+    // Returns the boolean for if the item was hit. 
     public boolean getHit() {
         return hiddenHit;
     }
 
+    // Moves the mouse. 
     public void mouseMoved() {
 
     }
 
+    // Paints everything. 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -153,6 +165,7 @@ public class GamePanel extends JPanel
 
     }
 
+    // Spawns enemies. 
     public void spawnEnemies() {
         if (random.nextInt(100) < .5) { // Adjust this value for desired spawn
                                         // rate
@@ -177,6 +190,7 @@ public class GamePanel extends JPanel
         }
     }
 
+    // Moves enemies. 
     public void moveEnemies() {
         double centerX = getWidth() / 2.0;
         double centerY = getHeight() / 2.0;
