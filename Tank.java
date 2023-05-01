@@ -11,23 +11,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComponent;
 
-/**
-* A class that creates a rotating turret.
-*
-* @authors Chankaya Pandya
-*/
 public class Tank extends JPanel {
 
     // Define the initial shape to be rotated
-    private final int[] xPoints = { 440, 390, 390, 440 };
-    private final int[] yPoints = { 310, 310, 290, 290 };
-    private final int numPoints = 4;
+    public final int[] xPoints = { 440, 390, 390, 440 };
+    public final int[] yPoints = { 310, 310, 290, 290 };
+    public final int numPoints = 4;
     
     // Define the rotation point
-    private final Point rotationPoint = new Point(400, 300);
+    public final Point rotationPoint = new Point(400, 300);
     
     // Define the current angle of rotation
-    private double angle = 0;
+    public double angle = 0;
     
     public Tank() {
       // Add a mouse motion listener to track the mouse movement
@@ -45,11 +40,8 @@ public class Tank extends JPanel {
       super.paintComponent(g);
       Graphics2D g2d = (Graphics2D)g;
       g2d.setColor(Color.blue);
-      // Translate the graphics context to the rotation point
       g2d.translate(rotationPoint.getX(), rotationPoint.getY());
-      // Rotate the graphics context by the current angle
       g2d.rotate(angle);
-      // Translate the graphics context back to the original position
       g2d.translate(-rotationPoint.getX(), -rotationPoint.getY());
       // Draw the rotated shape
       g2d.drawPolygon(xPoints, yPoints, numPoints);
@@ -57,7 +49,6 @@ public class Tank extends JPanel {
       g2d.drawOval(380, 280, 40, 40);
       g2d.setColor(Color.orange);
       g2d.fillOval(380, 280, 40, 40);
-      
+          
     }
-
 }

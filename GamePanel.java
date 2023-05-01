@@ -1,47 +1,32 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-/**
-* Creates the panel of the game.
-*
-* @authors Sam Kujawa, Abigail Jackson, Chase Hollander, Chanakya Pandya
-*/ 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements MouseMotionListener {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Enemies> enemies;
-	private ArrayList<Projectiles> projectiles; 
 	private Random random;
 	private int enemySize;
-	private HiddenItem item; 
+	private int enemyDeaths;
 	private Tank turret; 
-    	private int deathGoal = 15;
-    	private long timeGoal = 120000;
-    	private int scoreGoal = 1000;
-    	private double itemMulti = 0.5;
-    	private double timeMulti = 0.75; 
-    	private static int deathCount = 0;
-    	private static int score;
-    
 
 	public GamePanel() {
+	    addMouseMotionListener(this);
+		enemies = new ArrayList<>();
 		random = new Random();
-		enemies = new ArrayList<>(); 
 		enemySize = 30; // Adjust this value for desired enemy size
+		enemyDeaths = 0;
 		
 	    
 		// Initialize and set up the turret object
@@ -50,27 +35,23 @@ public class GamePanel extends JPanel {
 //        int turretX = (800 - turretWidth) / 2;
 //        int turretY = (600 - turretHeight) / 2;
 //        turret = new Tank(turretX, turretY, turretHeight, turretWidth, 0, Color.GREEN, Color.RED);
-		turret = new Tank();
-		
-		// Creates the hidden item.
-		int x = (int)(Math.random() * 800); 
-		int y = (int)(Math.random() * 600); 
-		item = new HiddenItem(x, y, 10, 10, 0.0); 
-
-        	setPreferredSize(new Dimension(800, 600));
-        	setBackground(Color.BLACK);
+//        turret.addMouseMotionListener(turret); // Add MouseMotionListener to turret
+		turret = new Tank(); 
+        setPreferredSize(new Dimension(800, 600));
+        setBackground(Color.WHITE);
 	}
 
+	public void mouseMoved() {
+	    
+	}
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (Enemies enemy : enemies) {
 			enemy.paint(g);
 		}
-        //turret.paintComponent(g); // Paint the turret object
-		// Paints the hidden item. 
-        	item.paintComponent(g); 
-        	turret.paintComponent(g);
+        turret.paintComponent(g); // Paint the turret object
+
 	}
 
 	public void spawnEnemies() {
@@ -111,44 +92,51 @@ public class GamePanel extends JPanel {
 				((CustomEnemy) enemy).move(moveX, moveY);
 
 			}
+
+		}
+		deathProcess();
+
+	}
+
+	public void deathProcess() {
+		List<Enemies> deadEnemies = new ArrayList<>();
+
+		for (Enemies enemy : enemies) {
+			double centerX = getWidth() / 2.0;
+			double centerY = getHeight() / 2.0;
+
+			if (enemy.isCenterReached(centerX, centerY, enemySize / 2)) {
+				deadEnemies.add(enemy);
+			}
+		}
+
+		for (Enemies enemy : deadEnemies) {
+			enemies.remove(enemy);
+			enemyDeaths++;
+
+			if (enemyDeaths >= 200) {
+				JOptionPane.showMessageDialog(null, "Quit ", "Quit", JOptionPane.INFORMATION_MESSAGE);
+				System.exit(0);
+				break;
+			}
 		}
 	}
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        turret.angle = Math.atan2(e.getY() - turret.rotationPoint.getY(), e.getX() - turret.rotationPoint.getX());
+        // Repaint the panel with the new rotation
+        repaint();
+        
+    }
 	
-	// Detects if enemies are hit by projectiles. 
-	public void detectCollision() {
-        	// Uses bounds for enemies and projectiles to detect intersection.
-        	for (int i = 0; i < enemies.size(); i++) {
-            		Rectangle enemyRec = enemies.get(i).getBounds();
-            		for (int j = 0; j < projectiles.size(); j++) {
-                		Rectangle projectileHit = projectiles.get(j).getBounds();
-                		if (projectileHit.intersects(enemyRec)) {
-                    			// Projectile has hit an enemy!
-                    			enemies.get(i).processCollision(enemies, i);
-                   			projectiles.remove(j);
-                    			score += 10;
-                		}
-            		}
-        	}
-    	}
 	
-	public int getScore() {
-        	return this.score; 
-    	}
 	
-	// Detects if enemies reach the turret. 
-	public void detectDeath() {
-        	// Uses bounds for enemies and turret to detect death. 
-        	for (int i = 0; i < enemies.size(); i++) {
-            		Rectangle enemyRec = enemies.get(i).getBounds();
-            		Rectangle turretRec = new Rectangle(400, 300); 
-            		if (turretRec.intersects(enemyRec)) { 
-                		deathCount++;
-                		enemies.remove(i); 
-            		}
-        	}
-    	}	
-	
-	public int getDeath() {
-	    return this.deathCount; 
-	}
-} 
+
+}
