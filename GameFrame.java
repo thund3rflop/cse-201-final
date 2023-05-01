@@ -86,9 +86,9 @@ public class GameFrame extends JFrame {
         Timer timer = new Timer(delay, gameLoop);
         timer.start();
         // Begin background music
-        // se.setFile("BlueBoyAdventure.wav");
-        // se.play();
-        // se.loop();
+        se.setFile("BlueBoyAdventure.wav");
+        se.play();
+        se.loop();
     }
 
     public static void gameStuff() {
