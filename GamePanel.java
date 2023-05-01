@@ -7,10 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -33,6 +37,9 @@ public class GamePanel extends JPanel
     private static int deathCount = 0;
     private static int score;
     private static boolean hiddenHit;
+    private BufferedImage backgroundImage;
+    SoundEffect shoot = new SoundEffect();
+
 
     public GamePanel() {
         addMouseMotionListener(this);
@@ -50,6 +57,13 @@ public class GamePanel extends JPanel
         turret = new Tank();
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.BLACK);
+        // Loads in background image
+        try {
+            backgroundImage = ImageIO
+                    .read(getClass().getResourceAsStream("/space.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Detects if enemies are hit by projectiles.
@@ -124,6 +138,10 @@ public class GamePanel extends JPanel
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // Draw the background image
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
         for (Enemies enemy : enemies) {
             enemy.paint(g);
         }
@@ -201,6 +219,9 @@ public class GamePanel extends JPanel
         projectiles.add(proj);
         this.add(proj);
         repaint();
+        shoot.setFile("Shoot.wav");
+        shoot.play();
+        
     }
 
     @Override
