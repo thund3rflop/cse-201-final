@@ -98,12 +98,14 @@ public class GamePanel extends JPanel
     }
 
     public boolean detectHiddenItem() {
+        ArrayList<Enemies> hiddenItem = new ArrayList<>();
+        hiddenItem.add(item);
         Rectangle hiddenRec = item.getBounds();
         for (int i = 0; i < projectiles.size(); i++) {
             Rectangle projectileHit = projectiles.get(i).getBounds();
             if (projectileHit.intersects(hiddenRec)) {
                 hiddenHit = true;
-                item.remove(item);
+                hiddenItem.remove(item);
             } else {
                 hiddenHit = false;
             }
