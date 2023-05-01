@@ -5,131 +5,52 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-/**
-* A class that creates the game panel.
-* 
-* @authors Chase Hollander, Abby Jackson, Sam Kujawa, Chanakya Pandya
-*/ 
-public class GamePanel extends JPanel implements MouseMotionListener {
+public class GamePanel extends JPanel implements MouseMotionListener, MouseListener {
     private static final long serialVersionUID = 1L;
-    /**
-    * Creates array list of enemies.
-    */ 
     private ArrayList<Enemies> enemies;
-    
-    /**
-    * Creates array list of projectiles.
-    */ 
     private ArrayList<Projectiles> projectiles; 
-    
-    /**
-    * Creates random generator.
-    */ 
     private Random random;
-    
-    /**
-    * Enemy's size. 
-    */ 
     private int enemySize;
-    
-    /**
-    * Creates turret. 
-    */
+    private int enemyDeaths;
     private Tank turret; 
-    
-    /**
-    * Creates hidden item. 
-    */
     private HiddenItem item; 
-    
-    /**
-    * Players can only have 25 deaths. 
-    */ 
-    private int deathGoal = 25;
-    
-    /**
-    * Player have to beat the level in 2 minutes for a bonus. 
-    */ 
+    private int deathGoal = 15;
     private long timeGoal = 120000;
-    
-    /**
-    * The base score in which players win the level. 
-    */ 
     private int scoreGoal = 1000;
-    
-    /** 
-    * Multiplier for hititng the hidden item. 
-    */ 
     private double itemMulti = 0.5;
-    
-    /** 
-    * Multiplier for beating time goal. 
-    */ 
     private double timeMulti = 0.75; 
-    
-    /**
-    * Total amount of deaths. 
-    */ 
     private static int deathCount = 0;
-    
-    /**
-    * Total score. 
-    */ 
     private static int score;
-    
-    /** 
-    * Whether or not hidden item was hit. 
-    */ 
     private static boolean hiddenHit; 
-    
-    /**
-    ** Background image for game
-    */
-    private BufferedImage backgroundImage;
 
-
-    /**
-    * Creates the game panel.
-    */ 
     public GamePanel() {
-        // Creates mouse motion listener. 
         addMouseMotionListener(this);
-        // Initializes arrays. 
+        addMouseListener(this);
         enemies = new ArrayList<>();
+        projectiles = new ArrayList<Projectiles>();
         random = new Random();
         enemySize = 30; // Adjust this value for desired enemy size
-        // Creates the hidden item.
+        enemyDeaths = 0;
+         // Creates the hidden item.
         int x = (int)(Math.random() * 800); 
         int y = (int)(Math.random() * 600); 
         item = new HiddenItem(x, y, 10, 10, 0.0); 
         
-        // Creates turret and sets backgrgound. 
         turret = new Tank(); 
         setPreferredSize(new Dimension(800, 600));
-        // Loads in background image
-        try {
-            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/space.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setBackground(Color.BLACK);
     }
-    
-    /**
-    * Detects if enemies are hit by projectiles. 
-    */
+    // Detects if enemies are hit by projectiles. 
     public void detectCollision() {
         // Uses bounds for enemies and projectiles to detect intersection.
         for (int i = 0; i < enemies.size(); i++) {
@@ -152,19 +73,13 @@ public class GamePanel extends JPanel implements MouseMotionListener {
             }
         }
     }
+
     
-    /**
-    * Gets the total score.
-    *
-    * @return The score. 
-    */ 
     public int getScore() {
         return this.score; 
     }
     
-    /**
-    * Detects if enemies reach the turret. 
-    */ 
+    // Detects if enemies reach the turret. 
     public void detectDeath() {
         // Uses bounds for enemies and turret to detect death. 
         for (int i = 0; i < enemies.size(); i++) {
@@ -177,24 +92,13 @@ public class GamePanel extends JPanel implements MouseMotionListener {
         }
     }   
     
-    /**
-    * Gets number of deaths.
-    * 
-    * @return The number of deaths. 
-    */
     public int getDeath() {
         return this.deathCount; 
     }
     
-    /**
-    * Detects if the hidden item was hit.
-    *
-    * @return A boolean stating if hidden item was hit by a projectile. 
-    */ 
     public boolean detectHiddenItem() {
         ArrayList<Enemies> hiddenItem = new ArrayList<>(); 
         hiddenItem.add(item); 
-        // Gets the bounds of the hidden item and all projectiles. 
         Rectangle hiddenRec = item.getBounds();
         for (int i = 0; i < projectiles.size(); i++) {
             Rectangle projectileHit = projectiles.get(i).getBounds();
@@ -208,45 +112,27 @@ public class GamePanel extends JPanel implements MouseMotionListener {
         return hiddenHit; 
     }
     
-    /**
-    * Gets if the hidden item was hit or not.
-    * 
-    * @return Whether or not the player hit the hidden item.
-    */ 
     public boolean getHit() {
         return hiddenHit; 
     }
 
-    /**
-    * Determines if mouse moved.
-    */ 
     public void mouseMoved() {
         
     }
-    
-    /**
-    * Overriden class that paints everything.
-    */ 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Draw the background image
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-        }
-        // Paints the enemies. 
         for (Enemies enemy : enemies) {
             enemy.paint(g);
         }
-        // Paints the hidden item. 
+        for (Projectiles proj: projectiles) {
+            proj.paintComponent(g);
+        }
         item.paintComponent(g); 
-        // Paints the turret object
-        turret.paintComponent(g); 
+        turret.paintComponent(g); // Paint the turret object
+
     }
 
-    /**
-    * Spawn enemies.
-    */ 
     public void spawnEnemies() {
         if (random.nextInt(100) < .5) { // Adjust this value for desired spawn rate
             int x, y;
@@ -270,9 +156,6 @@ public class GamePanel extends JPanel implements MouseMotionListener {
         }
     }
 
-    /**
-    * Move the enemies.
-    */ 
     public void moveEnemies() {
         double centerX = getWidth() / 2.0;
         double centerY = getHeight() / 2.0;
@@ -283,16 +166,19 @@ public class GamePanel extends JPanel implements MouseMotionListener {
             double distance = Math.sqrt(dx * dx + dy * dy);
             double moveX = dx * enemy.getEnemySpeed() / distance;
             double moveY = dy * enemy.getEnemySpeed() / distance;
+
             if (enemy instanceof CustomEnemy) {
                 ((CustomEnemy) enemy).move(moveX, moveY);
+
             }
+
         }
     }
 
-    // Overriden methods for the mouse motion listener. 
     @Override
     public void mouseDragged(MouseEvent e) {
         // TODO Auto-generated method stub
+        
     }
 
     @Override
@@ -310,6 +196,26 @@ public class GamePanel extends JPanel implements MouseMotionListener {
         this.add(proj);
         repaint();
         System.out.println("Clicked");
+    }
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
     
     public void updateProjectiles() {
