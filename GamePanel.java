@@ -138,9 +138,16 @@ public class GamePanel extends JPanel implements MouseMotionListener {
                 Rectangle projectileHit = projectiles.get(j).getBounds();
                 if (projectileHit.intersects(enemyRec)) {
                     // Projectile has hit an enemy!
-                    enemies.get(i).processCollision(enemies, i);
-                    projectiles.remove(j);
+                    Enemies enemy = enemies.get(i);
+                    Projectiles projectile = projectiles.get(j);
+
+                    enemies.remove(enemy);
+                    projectiles.remove(projectile);
+                    this.remove(enemy);
+                    this.remove(projectile);
                     score += 10;
+
+                    repaint();
                 }
             }
         }
@@ -295,4 +302,19 @@ public class GamePanel extends JPanel implements MouseMotionListener {
         repaint();
         
     }   
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        Projectiles proj = new Projectiles(turret.angle);
+        projectiles.add(proj);
+        this.add(proj);
+        repaint();
+        System.out.println("Clicked");
+    }
+    
+    public void updateProjectiles() {
+        for (Projectiles proj : projectiles) {
+            proj.move();
+        }
+    }
 }
