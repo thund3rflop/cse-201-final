@@ -36,12 +36,16 @@ public abstract class Enemies extends JComponent {
         this.enemySpeed = enemySpeed; 
     }
     
+    /**
+    * Deletes enemies when they are hit.
+    * @param list The list of enemies. 
+    * @param enemy The enemy that is hit and removed. 
+    * / 
     public void processCollision(ArrayList<Enemies> list, int enemy) {
         Enemies e = list.get(enemy); 
         list.remove(enemy);  
     }
      
-   
     /**
      * Draws a filled circle with Enemy's color & bounds. 
      * @param g The Graphics that include the color & bounds. 
@@ -85,7 +89,7 @@ public abstract class Enemies extends JComponent {
     }
     
     /**
-     * Used to paint the enemies 
+     * Used to paint the enemies.
      */
     @Override
     public void paint(Graphics g) {
