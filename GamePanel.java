@@ -16,11 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-/**
-* Creates the panel of the game.
-*
-* @authors Sam Kujawa, Abigail Jackson, Chase Hollander, Chanakya Pandya
-*/ 
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Enemies> enemies;
@@ -29,27 +24,22 @@ public class GamePanel extends JPanel {
 	private int enemySize;
 	private HiddenItem item; 
 	private Tank turret; 
-    	private int deathGoal = 15;
-    	private long timeGoal = 120000;
-    	private int scoreGoal = 1000;
-    	private double itemMulti = 0.5;
-    	private double timeMulti = 0.75; 
-    	private static int deathCount = 0;
-    	private static int score;
+    private int deathGoal = 15;
+    private long timeGoal = 120000;
+    private int scoreGoal = 1000;
+    private double itemMulti = 0.5;
+    private double timeMulti = 0.75; 
+    private static int deathCount = 0;
+    private static int score;
+    private static boolean hiddenHit; 
     
 
 	public GamePanel() {
 		random = new Random();
 		enemies = new ArrayList<>(); 
+		projectiles = new ArrayList<Projectiles>(); 
 		enemySize = 30; // Adjust this value for desired enemy size
-		
-	    
-		// Initialize and set up the turret object
-//        int turretWidth = 30;
-//        int turretHeight = 30;
-//        int turretX = (800 - turretWidth) / 2;
-//        int turretY = (600 - turretHeight) / 2;
-//        turret = new Tank(turretX, turretY, turretHeight, turretWidth, 0, Color.GREEN, Color.RED);
+
 		turret = new Tank();
 		
 		// Creates the hidden item.
@@ -57,21 +47,33 @@ public class GamePanel extends JPanel {
 		int y = (int)(Math.random() * 600); 
 		item = new HiddenItem(x, y, 10, 10, 0.0); 
 
-        	setPreferredSize(new Dimension(800, 600));
-        	setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(800, 600));
+        setBackground(Color.BLACK);
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		// Paints enemies. 
 		for (Enemies enemy : enemies) {
 			enemy.paint(g);
 		}
+		
+		for (Projectiles projectile : projectiles) {
+		    projectile.paintComponent(g); 
+		}
         //turret.paintComponent(g); // Paint the turret object
 		// Paints the hidden item. 
-        	item.paintComponent(g); 
-        	turret.paintComponent(g);
+        item.paintComponent(g); 
+        turret.paintComponent(g);
 	}
+	
+    public void addProjectile() {
+        int x = (int) (Math.random() * 800), y = (int) (Math.random() * 600);
+        Projectiles newProjectile = new Projectiles(x, y); 
+        projectiles.add(newProjectile);
+    } 
+    
 
 	public void spawnEnemies() {
 		if (random.nextInt(100) < .5) { // Adjust this value for desired spawn rate
@@ -114,39 +116,65 @@ public class GamePanel extends JPanel {
 		}
 	}
 	
+	public boolean detectHiddenItem() {
+	    ArrayList<Enemies> hiddenItem = new ArrayList<>(); 
+	    hiddenItem.add(item); 
+	    Rectangle hiddenRec = item.getBounds();
+	    for (int i = 0; i < projectiles.size(); i++) {
+	        Rectangle projectileHit = projectiles.get(i).getBounds();
+	        if (projectileHit.intersects(hiddenRec)) {
+	            hiddenHit = true; 
+	            hiddenItem.remove(item); 
+	        } else {
+	            hiddenHit = false; 
+	        }
+	    }
+	    return hiddenHit; 
+	}
+	
+	public boolean getHit() {
+	    return hiddenHit; 
+	}
+	
+	public void moveProjectiles(int mouseX, int mouseY) {
+	    int x = 400, y = 300;
+	    
+	    
+	}
+	
 	// Detects if enemies are hit by projectiles. 
 	public void detectCollision() {
-        	// Uses bounds for enemies and projectiles to detect intersection.
-        	for (int i = 0; i < enemies.size(); i++) {
-            		Rectangle enemyRec = enemies.get(i).getBounds();
-            		for (int j = 0; j < projectiles.size(); j++) {
-                		Rectangle projectileHit = projectiles.get(j).getBounds();
-                		if (projectileHit.intersects(enemyRec)) {
-                    			// Projectile has hit an enemy!
-                    			enemies.get(i).processCollision(enemies, i);
-                   			projectiles.remove(j);
-                    			score += 10;
-                		}
-            		}
-        	}
-    	}
+        // Uses bounds for enemies and projectiles to detect intersection.
+        for (int i = 0; i < enemies.size(); i++) {
+            Rectangle enemyRec = enemies.get(i).getBounds();
+            for (int j = 0; j < projectiles.size(); j++) {
+                Rectangle projectileHit = projectiles.get(j).getBounds();
+                if (projectileHit.intersects(enemyRec)) {
+                    // Projectile has hit an enemy!
+                    enemies.get(i).processCollision(enemies, i);
+                    projectiles.remove(j);
+                    score += 10;
+                }
+            }
+        }
+    }
 	
 	public int getScore() {
-        	return this.score; 
-    	}
+        return this.score; 
+    }
 	
 	// Detects if enemies reach the turret. 
 	public void detectDeath() {
-        	// Uses bounds for enemies and turret to detect death. 
-        	for (int i = 0; i < enemies.size(); i++) {
-            		Rectangle enemyRec = enemies.get(i).getBounds();
-            		Rectangle turretRec = new Rectangle(400, 300); 
-            		if (turretRec.intersects(enemyRec)) { 
-                		deathCount++;
-                		enemies.remove(i); 
-            		}
-        	}
-    	}	
+        // Uses bounds for enemies and turret to detect death. 
+        for (int i = 0; i < enemies.size(); i++) {
+            Rectangle enemyRec = enemies.get(i).getBounds();
+            Rectangle turretRec = new Rectangle(400, 300); 
+            if (turretRec.intersects(enemyRec)) { 
+                deathCount++;
+                enemies.remove(i); 
+            }
+        }
+    }	
 	
 	public int getDeath() {
 	    return this.deathCount; 
