@@ -29,6 +29,9 @@ public class Tank extends JPanel {
     // Define the current angle of rotation
     private double angle = 0;
     
+    /**
+    * A constructor that creates the tank.
+    */ 
     public Tank() {
       // Add a mouse motion listener to track the mouse movement
       addMouseMotionListener(new MouseMotionAdapter() {
@@ -41,6 +44,9 @@ public class Tank extends JPanel {
       });
     }
     
+    /**
+    * Paints the turret.
+    */ 
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2d = (Graphics2D)g;
@@ -57,7 +63,5 @@ public class Tank extends JPanel {
       g2d.drawOval(380, 280, 40, 40);
       g2d.setColor(Color.orange);
       g2d.fillOval(380, 280, 40, 40);
-      
-    }
-
+    } 
 }
