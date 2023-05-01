@@ -15,24 +15,68 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+/**
+* Creates the framework of the game.
+*
+* @authors Chase Hollander, Abby Jackson, Sam Kujawa, Chanakya Pandya.
+*/ 
 public class GameFrame extends JFrame {
+    /**
+    * Creates the game panel.
+    */ 
     private static GamePanel gamePanel;
+    
+    /** 
+    * Beginning time for the system.
+    */ 
     private static long startTime;
+    
+    /**
+    * Finishing time for the system.
+    */ 
     private static long finishTime;
+    
+    /**
+    * Total time the system was ran.
+    */ 
     private static long totalTime;
+    
+    /**
+    * The goal time to beat.
+    */ 
     private static long timeGoal = 120000;
+    
+    /**
+    * The score multiplier for hitting the hidden item.
+    */ 
     private static double itemMulti = 0.5;
+    
+    /**
+    * The time multiplier for beating the time.
+    */ 
     private static double timeMulti = 0.75;
+    
+    /**
+    * Labels for the game.
+    */ 
     private static JLabel scoreLabel;
     private static JLabel deathLabel;
     private static GameFrame frame;
+    
+    /**
+    * Sound effects.
+    */ 
     static Sound se = new Sound();
 
+    /**
+    * Creates the game frame and labels.
+    */ 
     public GameFrame() {
         setLayout(new BorderLayout());
         gamePanel = new GamePanel();
         this.add(gamePanel, BorderLayout.CENTER);
 
+        // Creates labels. 
         scoreLabel = new JLabel("Score: ");
         deathLabel = new JLabel("Deaths: ");
         scoreLabel.setForeground(Color.WHITE);
@@ -44,13 +88,15 @@ public class GameFrame extends JFrame {
         labelPanel.add(scoreLabel);
         labelPanel.add(deathLabel);
 
+        // More labels. 
         JLabel timeGoalLabel = new JLabel("Time goal: 2 minutes");
         timeGoalLabel.setForeground(Color.WHITE);
         labelPanel.add(timeGoalLabel);
 
-        // Add the labelPanel to the NORTH region
+        // Add the labelPanel to the top. 
         add(labelPanel, BorderLayout.NORTH);
 
+        // Makes everything visible. 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setResizable(true);
@@ -59,6 +105,9 @@ public class GameFrame extends JFrame {
         setTitle("Bullet Blitz");
     }
 
+    /**
+    * A main method that deals with some basic functionality.
+    */ 
     public static void main(String[] args) {
         // Display rules for game
         JOptionPane.showMessageDialog(null, "Rules: "
@@ -91,9 +140,14 @@ public class GameFrame extends JFrame {
         se.loop();
     }
 
+    /**
+    * Deals with more functionality for the game.
+    */ 
     public static void gameStuff() {
+        // Begins beginning time. 
         startTime = System.currentTimeMillis();
 
+        // Updates score label. 
         int score = frame.gamePanel.getScore();
         scoreLabel.setText("Score: " + score);
         if (score > 1000) {
@@ -111,12 +165,14 @@ public class GameFrame extends JFrame {
                 score = (int) (score + (score * itemMulti));
             }
 
+            // Prints winning image. 
             JOptionPane.showMessageDialog(null, "You Win! Score: " + score,
                     "SCORE GOAL REACHED",
                     JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
 
+        // Checks if the death limit is reached. 
         int deaths = frame.gamePanel.getDeath();
         deathLabel.setText("Deaths: " + deaths);
         if (deaths >= 25) {
