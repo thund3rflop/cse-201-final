@@ -19,15 +19,15 @@ import javax.swing.JComponent;
 public class Tank extends JPanel {
 
     // Define the initial shape to be rotated
-    private final int[] xPoints = { 440, 390, 390, 440 };
-    private final int[] yPoints = { 310, 310, 290, 290 };
-    private final int numPoints = 4;
+    public final int[] xPoints = { 440, 390, 390, 440 };
+    public final int[] yPoints = { 310, 310, 290, 290 };
+    public final int numPoints = 4;
     
     // Define the rotation point
-    private final Point rotationPoint = new Point(400, 300);
+    public final Point rotationPoint = new Point(400, 300);
     
     // Define the current angle of rotation
-    private double angle = 0;
+    public double angle = 0;
     
     /**
     * A constructor that creates the tank.
