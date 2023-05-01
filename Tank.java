@@ -11,31 +11,42 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JComponent;
 
+/**
+* A class that creates the tank.
+*
+* @author Chanakya Pandya
+*/ 
 public class Tank extends JPanel {
 
-    // Define the initial shape to be rotated
+    // The fixed position of the tank. 
     public final int[] xPoints = { 440, 390, 390, 440 };
     public final int[] yPoints = { 310, 310, 290, 290 };
     public final int numPoints = 4;
     
-    // Define the rotation point
+    // Where the tank rotates around. 
     public final Point rotationPoint = new Point(400, 300);
     
-    // Define the current angle of rotation
+    // The angle of rotation of the tank that follows the 
+    // movement of the mouse. 
     public double angle = 0;
     
+    /**
+    * A constructor that creates the tank.
+    */ 
     public Tank() {
-      // Add a mouse motion listener to track the mouse movement
+      // Mouse motion listener that tracks the movement of the mouse
+      // to move the turret. 
       addMouseMotionListener(new MouseMotionAdapter() {
         public void mouseMoved(MouseEvent e) {
-          // Calculate the new angle of rotation based on the mouse position
           angle = Math.atan2(e.getY() - rotationPoint.getY(), e.getX() - rotationPoint.getX());
-          // Repaint the panel with the new rotation
           repaint();
         }
       });
     }
     
+    /**
+    * Paints the tank.
+    */ 
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2d = (Graphics2D)g;
@@ -43,7 +54,6 @@ public class Tank extends JPanel {
       g2d.translate(rotationPoint.getX(), rotationPoint.getY());
       g2d.rotate(angle);
       g2d.translate(-rotationPoint.getX(), -rotationPoint.getY());
-      // Draw the rotated shape
       g2d.drawPolygon(xPoints, yPoints, numPoints);
       g2d.fillPolygon(xPoints, yPoints, numPoints);
       g2d.drawOval(380, 280, 40, 40);
