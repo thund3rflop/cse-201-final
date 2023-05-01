@@ -6,10 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -90,6 +94,12 @@ public class GamePanel extends JPanel implements MouseMotionListener {
     * Whether or not hidden item was hit. 
     */ 
     private static boolean hiddenHit; 
+    
+    /**
+    ** Background image for game
+    */
+    private BufferedImage backgroundImage;
+
 
     /**
     * Creates the game panel.
@@ -110,7 +120,12 @@ public class GamePanel extends JPanel implements MouseMotionListener {
         // Creates turret and sets backgrgound. 
         turret = new Tank(); 
         setPreferredSize(new Dimension(800, 600));
-        setBackground(Color.BLACK);
+        // Loads in background image
+        try {
+            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/space.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -209,6 +224,10 @@ public class GamePanel extends JPanel implements MouseMotionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // Draw the background image
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
         // Paints the enemies. 
         for (Enemies enemy : enemies) {
             enemy.paint(g);
